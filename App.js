@@ -1,20 +1,16 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+// import { StatusBar } from 'expo-status-bar';
+import { StyleSheet, View, Text, Button, Platform, StatusBar, Dimensions, SafeAreaView } from 'react-native';
+import {useDimensions,useDeviceOrientation} from '@react-native-community/hooks';
+import WelcomeScreen from './app/screens/WelcomeScreen';
+import ViewImageScreen from './app/screens/ViewImageScreen';
+import AppButton from './app/components/AppButton';
+import Card from './app/components/Card';
+import ListingDetailsScreen from './app/screens/ListingDetailsScreen';
+
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Let Go Now!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <ViewImageScreen />
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
