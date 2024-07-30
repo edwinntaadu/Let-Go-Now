@@ -42,3 +42,13 @@ Follow these steps to set up and run LetGoNow:
 
 1. **Start the Development Server**
    npx expo start
+
+## Screenshots
+
+Here are some screenshots of the application.
+
+![Welcome Page](/app/assets/Welcome.png)
+![Login Page](/app/assets/Login.png)
+![View Image Page](/app/assets/ViewImageScreen.png)
+![Listing Details](/app/assets/ListingDetailsScreen.png)
+![Listing Edit Page](/app/assets/ListingEditScreen.png)

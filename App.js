@@ -1,30 +1,40 @@
-import { useState } from 'react';
-import { StyleSheet, View, Text, Button, Platform, StatusBar, Dimensions, SafeAreaView, TextInput, Switch } from 'react-native';
+import { useEffect, useState } from 'react';
+import * as ImagePicker from 'expo-image-picker';
+import * as Permissions from 'expo-permissions';
+import { StyleSheet, View, Text, Button, Platform, StatusBar, Dimensions, SafeAreaView, TextInput, Switch, Image } from 'react-native';
 import {useDimensions,useDeviceOrientation} from '@react-native-community/hooks';
-import WelcomeScreen from './app/screens/WelcomeScreen';
-import ViewImageScreen from './app/screens/ViewImageScreen';
-import AppButton from './app/components/AppButton';
-import Card from './app/components/Card';
-import ListingDetailsScreen from './app/screens/ListingDetailsScreen';
-import MessagesScreen from './app/screens/MessagesScreen';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import Screen from './app/components/Screen';
-import Icon from './app/components/Icon';
-import ListItem from './app/components/lists/ListItem';
-import AccountScreen from './app/screens/AccountScreen';
-import ListingsScreen from './app/screens/ListingsScreen';
-import AppTextInput from './app/components/AppTextInput';
-import AppPicker from './app/components/AppPicker';
-import LoginScreen from './app/screens/LoginScreen';
-import ListingEditScreen from './app/screens/ListingEditScreen';
-
 
 
 export default function App() {
+  const [imageUri, setImageUri] = useState();
+
+  const requestPermission = async () => {
+    const {granted} = await ImagePicker.requestCameraPermissionsAsync();
+    if (!granted)
+      alert('You need to enable permission to access the library.');
+  }
+  useEffect(() => {
+    requestPermission();
+  }, [])
+
+  const selectImage = async () => {
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync();
+      if (!result.canceled)
+        setImageUri(result.uri);
+    } catch (error) {
+      console.log('Error reading an image', error);
+    }
+  }
 
   return (
     <GestureHandlerRootView style={{flex: 1}}>
-     <ListingEditScreen />
+     <Screen>
+      <Button title='Select Image' onPress={selectImage} />
+      <Image  source={{uri: imageUri}} style={{width:200, height:200}}/>
+     </Screen>
     </GestureHandlerRootView>
   );
 }
