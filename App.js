@@ -5,6 +5,7 @@ import { StyleSheet, View, Text, Button, Platform, StatusBar, Dimensions, SafeAr
 import {useDimensions,useDeviceOrientation} from '@react-native-community/hooks';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import Screen from './app/components/Screen';
+import ImageInput from './app/components/ImageInput';
 
 
 export default function App() {
@@ -15,15 +16,16 @@ export default function App() {
     if (!granted)
       alert('You need to enable permission to access the library.');
   }
+
   useEffect(() => {
     requestPermission();
-  }, [])
+  }, []);
 
   const selectImage = async () => {
     try {
       const result = await ImagePicker.launchImageLibraryAsync();
-      if (!result.canceled)
-        setImageUri(result.uri);
+      if (!result.canceled && result.assets.length > 0)
+        setImageUri(result.assets[0].uri);
     } catch (error) {
       console.log('Error reading an image', error);
     }
@@ -34,6 +36,7 @@ export default function App() {
      <Screen>
       <Button title='Select Image' onPress={selectImage} />
       <Image  source={{uri: imageUri}} style={{width:200, height:200}}/>
+      <ImageInput />
      </Screen>
     </GestureHandlerRootView>
   );
