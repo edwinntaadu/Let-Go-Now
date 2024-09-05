@@ -6,35 +6,28 @@ import {useDimensions,useDeviceOrientation} from '@react-native-community/hooks'
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import Screen from './app/components/Screen';
 import ImageInput from './app/components/ImageInput';
+import ImageInputList from './app/components/ImageInputList';
 
 
 export default function App() {
-  const [imageUri, setImageUri] = useState();
+  const [imageUris, setImageUris] = useState([]);
 
-  const requestPermission = async () => {
-    const {granted} = await ImagePicker.requestCameraPermissionsAsync();
-    if (!granted)
-      alert('You need to enable permission to access the library.');
+  const handleAdd = uri => {
+    setImageUris([...imageUris, uri]);
   }
 
-  useEffect(() => {
-    requestPermission();
-  }, []);
-
-  const selectImage = async () => {
-    try {
-      const result = await ImagePicker.launchImageLibraryAsync();
-      if (!result.canceled && result.assets.length > 0)
-        setImageUri(result.assets[0].uri);
-    } catch (error) {
-      console.log('Error reading an image', error);
-    }
+  const handleRemove = uri => {
+    setImageUris(imageUris.filter(imageUri => imageUri !== uri));
   }
 
   return (
     <GestureHandlerRootView style={{flex: 1}}>
      <Screen>
-      <ImageInput imageUri={imageUri} onChangeImage={(uri) => setImageUri(uri)} />
+      <ImageInputList
+       imageUris={imageUris} 
+       onAddImage={handleAdd} 
+       onRemoveImage={handleRemove} 
+      />
      </Screen>
     </GestureHandlerRootView>
   );
